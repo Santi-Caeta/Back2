@@ -1,6 +1,7 @@
+import 'dotenv/config';
 import passport from "passport";
-import local from 'passport-local'
-import GithubStrategy from 'passport-github'
+import local from 'passport-local';
+import GithubStrategy from 'passport-github';
 import jwt from 'passport-jwt'
 import userModel from "../models/userModels.js";
 import { createHash, validatePassword } from "../utils/bcrypt.js";
@@ -25,7 +26,7 @@ const initializatePassport = () => {
             const {first_name, last_name, email, password, age} = req.body
     
             if(first_name == undefined || last_name == undefined || email == undefined || password == undefined || age == undefined) {
-                return done(null, false) //No hubo error pero no se creo el nuevo usuario
+                return done(null, false)
             } else {
                 let user = await userModel.create({
                     first_name: first_name, 
@@ -70,7 +71,7 @@ const initializatePassport = () => {
                     first_name: profile._json.name,
                     last_name: " ", 
                     email: profile._json.email,
-                    password: createHash("coder"), //Dato no proporcionado por github, pass por defecto
+                    password: createHash("coder"),
                     age: 18
                 })
                 done(null, user)
@@ -84,8 +85,8 @@ const initializatePassport = () => {
     }))
 
     passport.use('jwt', new JWTStrategy({
-        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]), //De donde saco el token
-        secretOrKey: "coder1234"
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+        secretOrKey: process.env.SECRET_JWT
     },(jwt_payload, done) => {
         try {
             return done(null, jwt_payload)
@@ -94,7 +95,6 @@ const initializatePassport = () => {
         }
     }))
 
-    //Permitar autenticar via HTTP
     passport.serializeUser((user, done) => {
         done(null, user?._id)
     })

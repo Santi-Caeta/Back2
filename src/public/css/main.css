@@ -1,0 +1,9 @@
+.cardRegister {
+    width: 90vh;
+    background-color:lightblue;
+}
+
+.cardLogin {
+    width: 90vh;
+    background-color:cyan;
+}

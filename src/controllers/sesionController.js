@@ -49,3 +49,19 @@ export const githubLogin = (req,res) =>{
         res.status(500).send(e)
     }
 }
+
+export const viewLogin = (req,res) => {
+    res.status(200).render('templates/login', {
+        title: "Inicio de Sesion de Usuario",
+        url_js: "/js/login.js",
+        url_css: "/css/main.css"
+    })
+}
+
+export const viewRegister = (req,res) => {
+    res.status(200).render('templates/register', {
+        title: "Registro de Usuario",
+        url_js: "/js/register.js",
+        url_css: "/css/main.css"
+    })
+}
